@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as VoiceEffectsRouteImport } from './routes/voice-effects'
+import { Route as VoiceSlugRouteImport } from './routes/voice.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoiceEffectsRoute = VoiceEffectsRouteImport.update({
+  id: '/voice-effects',
+  path: '/voice-effects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoiceSlugRoute = VoiceSlugRouteImport.update({
+  id: '/voice/$slug',
+  path: '/voice/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/faq': typeof FaqRoute
+  '/voice-effects': typeof VoiceEffectsRoute
+  '/voice/$slug': typeof VoiceSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/faq': typeof FaqRoute
+  '/voice-effects': typeof VoiceEffectsRoute
+  '/voice/$slug': typeof VoiceSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/faq': typeof FaqRoute
+  '/voice-effects': typeof VoiceEffectsRoute
+  '/voice/$slug': typeof VoiceSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/faq' | '/voice-effects' | '/voice/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/faq' | '/voice-effects' | '/voice/$slug'
+  id: '__root__' | '/' | '/faq' | '/voice-effects' | '/voice/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FaqRoute: typeof FaqRoute
+  VoiceEffectsRoute: typeof VoiceEffectsRoute
+  VoiceSlugRoute: typeof VoiceSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voice-effects': {
+      id: '/voice-effects'
+      path: '/voice-effects'
+      fullPath: '/voice-effects'
+      preLoaderRoute: typeof VoiceEffectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voice/$slug': {
+      id: '/voice/$slug'
+      path: '/voice/$slug'
+      fullPath: '/voice/$slug'
+      preLoaderRoute: typeof VoiceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FaqRoute: FaqRoute,
+  VoiceEffectsRoute: VoiceEffectsRoute,
+  VoiceSlugRoute: VoiceSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
